@@ -1,0 +1,5 @@
+# Editor, IDE stuff
+.vscode/
+
+# Rust 
+target/
