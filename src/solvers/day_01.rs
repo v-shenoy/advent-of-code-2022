@@ -1,5 +1,5 @@
 // Link - https://adventofcode.com/2022/day/1
-use crate::Solver;
+use crate::common::Solver;
 
 pub struct Day01;
 
@@ -31,13 +31,13 @@ mod tests {
     use crate::common::read_input;
 
     #[test]
-    fn part_a() {
+    fn test_part_a() {
         let input = read_input("inputs/01_test.txt");
         assert_eq!("24000", Day01.part_a(&input))
     }
 
     #[test]
-    fn part_b() {
+    fn test_part_b() {
         let input = read_input("inputs/01_test.txt");
         assert_eq!("45000", Day01.part_b(&input))
     }

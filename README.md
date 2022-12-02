@@ -14,11 +14,9 @@ I will also try to add basic comments explaining my approach, as well as benchma
 All common utility stuff is defined in the `src/common.rs` file. Solutions for day `XX` are defined in the `src/solvers/day_XX.rs` file. Inputs
 for day `XX` are in the `inputs/XX.txt` and `inputs/XX_test.txt` (which is the sample input).
 
-### Using Cargo
+### Run
 
 ```shell
-# Running the sample inputs
-$ cargo test
 # Running all solutions
 $ cargo run --release -- all
 # Running a particular solution
@@ -26,6 +24,32 @@ $ cargo run --release -- run <day> <part> # day = XX, part = a/b
 ```
 
 > Note: The solutions have been tested with Cargo & Rust v1.65.0.
+
+### Test
+
+Sample input for each day has been used to write unit tests.
+
+```shell
+# Testing all sample inputs
+$ cargo test
+# Testing sample input for particular day
+$ cargo test day_XX::
+```
+
+### Benchmarks
+
+> This requires features from the unstable release chain, which can be installed using
+> ```shell
+>    $ rustup install nightly
+> ```
+
+Once nightly rust has been installed
+```shell
+# Running all benchmarks
+$ cargo +nightly bench
+# Running benchmarks for particular day
+$ cargo +nightly bench bench_day_XX::
+```
 
 ## Stars obtained
 
