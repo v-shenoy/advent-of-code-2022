@@ -21,7 +21,7 @@ impl Solver for Day01 {
 fn calories_per_elf(input: &str) -> Vec<u64> {
     input
         .split("\n\n")
-        .map(|x| x.lines().map(|x| x.parse::<u64>().unwrap()).sum())
+        .map(|elf| elf.lines().map(|line| line.parse::<u64>().unwrap()).sum())
         .collect()
 }
 

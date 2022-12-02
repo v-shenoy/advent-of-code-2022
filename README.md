@@ -20,7 +20,7 @@ for day `XX` are in the `inputs/XX.txt` and `inputs/XX_test.txt` (which is the s
 # Running all solutions
 $ cargo run --release -- all
 # Running a particular solution
-$ cargo run --release -- run <day> <part> # day = XX, part = a/b
+$ cargo run --release -- run <day> [part] # day = XX, part = a/b
 ```
 
 > Note: The solutions have been tested with Cargo & Rust v1.65.0.
@@ -38,7 +38,7 @@ $ cargo test day_XX::
 
 ### Benchmarks
 
-> This requires features from the unstable release chain, which can be installed using
+> Note: This requires features from the unstable release chain, which can be installed using
 > ```shell
 >    $ rustup install nightly
 > ```
@@ -48,12 +48,12 @@ Once nightly rust has been installed
 # Running all benchmarks
 $ cargo +nightly bench
 # Running benchmarks for particular day
-$ cargo +nightly bench bench_day_XX::
+$ cargo +nightly bench day_XX::
 ```
 
 ## Stars obtained
 
-### 02 / 50 :star:
+### 04 / 50 :star:
 
 ## Other Advent of Code solutions
 
