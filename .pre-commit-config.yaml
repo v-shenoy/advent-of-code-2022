@@ -1,0 +1,20 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: end-of-file-fixer
+    -   id: mixed-line-ending
+        name: Use Linux file endings
+        args: ["--fix=lf"]
+-   repo: https://github.com/doublify/pre-commit-rust
+    rev: v1.0
+    hooks:
+    -   id: fmt
+        name: Run `cargo fmt`
+    -   id: cargo-check
+        name: Run `cargo check`
+    -   id: clippy
+        name: Run `cargo clippy`

@@ -1,5 +1,5 @@
 # Editor, IDE stuff
 .vscode/
 
-# Rust 
+# Rust
 target/

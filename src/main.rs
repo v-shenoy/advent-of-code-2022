@@ -42,7 +42,7 @@ fn main() {
         }
         Command::Run { day, part } => {
             let part = part.to_uppercase().to_string();
-            
+
             let input_file = format!("inputs/{:02}.txt", day);
             let input = read_input(&input_file);
             let solver = match solvers::SOLVERS.get((day - 1) as usize) {
