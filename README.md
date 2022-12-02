@@ -11,8 +11,12 @@ I will also try to add basic comments explaining my approach, as well as benchma
 
 ## Solutions
 
-All common utility stuff is defined in the `src/common.rs` file. Solutions for day `XX` are defined in the `src/solvers/day_XX.rs` file. Inputs
+All common utility stuff is defined in the `src/lib.rs` file. Solutions for day `XX` are defined in the `src/solvers/day_XX.rs` file. Inputs
 for day `XX` are in the `inputs/XX.txt` and `inputs/XX_test.txt` (which is the sample input).
+
+> Note:
+> - The solutions and tests been checked with Cargo & Rust v1.65.0.
+> - The benchmarks been checked with Cargo & Rust v1.67.0-nightly.
 
 ### Run
 
@@ -20,10 +24,8 @@ for day `XX` are in the `inputs/XX.txt` and `inputs/XX_test.txt` (which is the s
 # Running all solutions
 $ cargo run --release -- all
 # Running a particular solution
-$ cargo run --release -- run <day> [part] # day = XX, part = a/b
+$ cargo run --release -- run <day> [part] # day = XX, part = a / b (optional, runs both parts by default)
 ```
-
-> Note: The solutions have been tested with Cargo & Rust v1.65.0.
 
 ### Test
 
@@ -33,7 +35,7 @@ Sample input for each day has been used to write unit tests.
 # Testing all sample inputs
 $ cargo test
 # Testing sample input for particular day
-$ cargo test day_XX::
+$ cargo test day_XX
 ```
 
 ### Benchmarks
@@ -48,7 +50,7 @@ Once nightly rust has been installed
 # Running all benchmarks
 $ cargo +nightly bench
 # Running benchmarks for particular day
-$ cargo +nightly bench day_XX::
+$ cargo +nightly bench day_XX
 ```
 
 ## Stars obtained

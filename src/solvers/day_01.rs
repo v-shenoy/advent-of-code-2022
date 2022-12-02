@@ -1,5 +1,5 @@
 // Link - https://adventofcode.com/2022/day/1
-use crate::common::Solver;
+use crate::solvers::Solver;
 
 pub struct Day01;
 
@@ -28,7 +28,7 @@ fn calories_per_elf(input: &str) -> Vec<u64> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::common::read_input;
+    use crate::read_input;
 
     #[test]
     fn test_part_a() {

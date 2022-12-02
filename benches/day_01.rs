@@ -2,15 +2,9 @@
 extern crate test;
 use test::Bencher;
 
-#[path = "../src/common.rs"]
-mod common;
-use common::{read_input, Solver};
+use aoc::{read_input, solvers::day_01::Day01, Solver};
 
-#[path = "../src/solvers/day_01.rs"]
-mod day_01;
-use day_01::Day01;
-
-mod bench_day_01 {
+mod day_01 {
     use super::*;
 
     #[bench]

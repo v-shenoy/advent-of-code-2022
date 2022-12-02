@@ -1,5 +1,5 @@
 // Link - https://adventofcode.com/2022/day/2
-use crate::common::Solver;
+use crate::Solver;
 use Choice::*;
 use Outcome::*;
 
@@ -110,7 +110,7 @@ impl Outcome {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::common::read_input;
+    use crate::read_input;
 
     #[test]
     fn test_part_a() {

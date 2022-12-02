@@ -1,5 +1,7 @@
 use std::fs;
 
+pub mod solvers;
+
 pub fn read_input(path: &str) -> String {
     match fs::read_to_string(path) {
         Ok(input) => input,
@@ -7,8 +9,8 @@ pub fn read_input(path: &str) -> String {
     }
 }
 
-pub fn nano_to_milli(ns: u128) -> f64 {
-    ns as f64 / 1_000_000_f64
+pub fn nano_to_micro(ns: u128) -> f64 {
+    ns as f64 / 1_000_f64
 }
 
 pub trait Solver {

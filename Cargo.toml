@@ -9,5 +9,12 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[[bin]]
+name = "aoc"
+path = "src/main.rs"
+
+[lib]
+name = "aoc"
+
 [dependencies]
 clap = { version = "4.0.29", features = ["derive"] }
