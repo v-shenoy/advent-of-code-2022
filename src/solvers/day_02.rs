@@ -1,4 +1,6 @@
 // Link - https://adventofcode.com/2022/day/2
+use std::convert::From;
+
 use crate::Solver;
 use Choice::*;
 use Outcome::*;
@@ -9,10 +11,10 @@ impl Solver for Day02 {
     fn part_a(&self, input: &str) -> String {
         let ans: u64 = input
             .lines()
-            .map(|line| {
-                let (opp, your) = line.split_once(' ').unwrap();
-                let opp = Choice::new(opp);
-                let your = Choice::new(your);
+            .map(|l| {
+                let (opp, your) = l.split_once(' ').unwrap();
+                let opp = Choice::from(opp);
+                let your = Choice::from(your);
 
                 (your.value() + your.outcome(&opp).value()) as u64
             })
@@ -24,10 +26,10 @@ impl Solver for Day02 {
     fn part_b(&self, input: &str) -> String {
         let ans: u64 = input
             .lines()
-            .map(|line| {
-                let (opp, res) = line.split_once(' ').unwrap();
-                let opp = Choice::new(opp);
-                let res = Outcome::new(res);
+            .map(|l| {
+                let (opp, res) = l.split_once(' ').unwrap();
+                let opp = Choice::from(opp);
+                let res = Outcome::from(res);
 
                 let your = match (opp, res) {
                     (Rock, Loss) => Scissors,
@@ -56,8 +58,8 @@ enum Choice {
     Scissors = 3,
 }
 
-impl Choice {
-    fn new(choice: &str) -> Self {
+impl From<&str> for Choice {
+    fn from(choice: &str) -> Self {
         match choice {
             "A" | "X" => Rock,
             "B" | "Y" => Paper,
@@ -65,7 +67,9 @@ impl Choice {
             _ => unreachable!("Invalid choice - {}", choice),
         }
     }
+}
 
+impl Choice {
     fn value(&self) -> u8 {
         *self as u8
     }
@@ -92,8 +96,8 @@ enum Outcome {
     Win = 6,
 }
 
-impl Outcome {
-    fn new(res: &str) -> Self {
+impl From<&str> for Outcome {
+    fn from(res: &str) -> Self {
         match res {
             "X" => Loss,
             "Y" => Draw,
@@ -101,7 +105,9 @@ impl Outcome {
             _ => unreachable!("Invalid Outcome - {}", res),
         }
     }
+}
 
+impl Outcome {
     fn value(&self) -> u8 {
         *self as u8
     }
@@ -114,13 +120,13 @@ mod tests {
 
     #[test]
     fn test_part_a() {
-        let input = read_input("inputs/02_test.txt");
+        let input = read_input(2);
         assert_eq!("15", Day02.part_a(&input))
     }
 
     #[test]
     fn test_part_b() {
-        let input = read_input("inputs/02_test.txt");
+        let input = read_input(2);
         assert_eq!("12", Day02.part_b(&input))
     }
 }

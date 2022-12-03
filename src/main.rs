@@ -21,12 +21,11 @@ enum Command {
 fn main() {
     let cli = Cli::parse();
 
-    match &cli.command {
+    match cli.command {
         Command::All => {
             for (day, solver) in solvers::SOLVERS.iter().enumerate() {
                 let day = day as u8 + 1;
-                let input_file = format!("inputs/{:02}.txt", day);
-                let input = read_input(&input_file);
+                let input = read_input(day);
 
                 let start = Instant::now();
                 let ans = solver.part_a(&input);
@@ -48,12 +47,11 @@ fn main() {
             }
         }
         Command::Run { day, part } => {
-            let input_file = format!("inputs/{:02}.txt", day);
-            let input = read_input(&input_file);
             let solver = match solvers::SOLVERS.get((day - 1) as usize) {
                 Some(solver) => solver,
                 None => panic!("No solution for day - {:02}", day),
             };
+            let input = read_input(day);
 
             match part {
                 Some(part) => {

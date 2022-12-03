@@ -9,13 +9,13 @@ mod day_01 {
 
     #[bench]
     fn bench_part_a(b: &mut Bencher) {
-        let input = read_input("inputs/01.txt");
+        let input = read_input(1);
         b.iter(|| Day01.part_a(&input));
     }
 
     #[bench]
     fn bench_part_b(b: &mut Bencher) {
-        let input = read_input("inputs/01.txt");
+        let input = read_input(1);
         b.iter(|| Day01.part_b(&input));
     }
 }

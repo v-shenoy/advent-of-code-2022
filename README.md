@@ -35,14 +35,14 @@ Sample input for each day has been used to write unit tests.
 # Testing all sample inputs
 $ cargo test
 # Testing sample input for particular day
-$ cargo test day_XX
+$ cargo test XX
 ```
 
 ### Benchmarks
 
-> Note: This requires features from the unstable release chain, which can be installed using
+> Note: This requires features from the unstable release chain, which can be installed using -
 > ```shell
->    $ rustup install nightly
+> $ rustup install nightly
 > ```
 
 Once nightly rust has been installed
@@ -50,7 +50,7 @@ Once nightly rust has been installed
 # Running all benchmarks
 $ cargo +nightly bench
 # Running benchmarks for particular day
-$ cargo +nightly bench day_XX
+$ cargo +nightly bench XX
 ```
 
 ## Stars obtained
