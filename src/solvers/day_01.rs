@@ -6,7 +6,9 @@ pub struct Day01;
 impl Solver for Day01 {
     fn part_a(&self, input: &str) -> String {
         let calories = calories_per_elf(input);
-        calories.iter().max().unwrap().to_string()
+        let ans = calories.iter().max().unwrap();
+
+        ans.to_string()
     }
 
     fn part_b(&self, input: &str) -> String {

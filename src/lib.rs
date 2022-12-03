@@ -14,8 +14,17 @@ pub fn read_input(day: u8) -> String {
     }
 }
 
-pub fn nano_to_micro(ns: u128) -> f64 {
-    ns as f64 / 1_000_f64
+const TIME_UNITS: &[&str] = &["ns", "μs", "ms", "s"];
+pub fn format_time(time: u128) -> String {
+    let mut time = time as f64;
+    for unit in TIME_UNITS {
+        if time < 1000_f64 {
+            return format!("{}{}", time, unit);
+        }
+        time /= 1000_f64;
+    }
+
+    format!("{}{}", time, TIME_UNITS.last().unwrap())
 }
 
 pub trait Solver {

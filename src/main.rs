@@ -1,7 +1,7 @@
 use clap::{Parser, Subcommand};
 use std::time::Instant;
 
-use aoc::{nano_to_micro, read_input, solvers};
+use aoc::{format_time, read_input, solvers};
 
 #[derive(Parser)]
 #[command(author, version, about)]
@@ -29,17 +29,17 @@ fn main() {
 
                 let start = Instant::now();
                 let ans = solver.part_a(&input);
-                let elapsed = nano_to_micro(start.elapsed().as_nanos());
+                let elapsed = format_time(start.elapsed().as_nanos());
                 println!(
-                    "  Day - {:02}, Part A ans. - {}, Time - {}\u{00B5}s",
+                    "  Day - {:02}, Part A ans. - {}, Time - {}",
                     day, ans, elapsed
                 );
 
                 let start = Instant::now();
                 let ans = solver.part_b(&input);
-                let elapsed = nano_to_micro(start.elapsed().as_nanos());
+                let elapsed = format_time(start.elapsed().as_nanos());
                 println!(
-                    "  Day - {:02}, Part B ans. - {}, Time - {}\u{00B5}s",
+                    "  Day - {:02}, Part B ans. - {}, Time - {}",
                     day, ans, elapsed
                 );
 
@@ -62,26 +62,26 @@ fn main() {
                         "B" => solver.part_b(&input),
                         _ => panic!("No solution for Day - {:02}, Part {}", day, part),
                     };
-                    let elapsed = nano_to_micro(start.elapsed().as_nanos());
+                    let elapsed = format_time(start.elapsed().as_nanos());
                     println!(
-                        "Day - {:02}, Part {} ans. - {}, Time - {}\u{00B5}s",
+                        "Day - {:02}, Part {} ans. - {}, Time - {}",
                         day, part, ans, elapsed
                     );
                 }
                 None => {
                     let start = Instant::now();
                     let ans = solver.part_a(&input);
-                    let elapsed = nano_to_micro(start.elapsed().as_nanos());
+                    let elapsed = format_time(start.elapsed().as_nanos());
                     println!(
-                        "Day - {:02}, Part A ans. - {}, Time - {}\u{00B5}s",
+                        "Day - {:02}, Part A ans. - {}, Time - {}",
                         day, ans, elapsed
                     );
 
                     let start = Instant::now();
                     let ans = solver.part_b(&input);
-                    let elapsed = nano_to_micro(start.elapsed().as_nanos());
+                    let elapsed = format_time(start.elapsed().as_nanos());
                     println!(
-                        "Day - {:02}, Part B ans. - {}, Time - {}\u{00B5}s",
+                        "Day - {:02}, Part B ans. - {}, Time - {}",
                         day, ans, elapsed
                     );
                 }
