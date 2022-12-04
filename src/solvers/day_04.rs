@@ -1,6 +1,7 @@
 // Link - https://adventofcode.com/2022/day/4
-use crate::Solver;
 use std::convert::From;
+
+use crate::Solver;
 
 pub struct Day04;
 

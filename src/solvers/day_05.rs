@@ -1,4 +1,4 @@
-// Link - https://adventofcode.com/2022/day/XX
+// Link - https://adventofcode.com/2022/day/5
 use crate::Solver;
 
 pub struct Day05;

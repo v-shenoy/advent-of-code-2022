@@ -1,10 +1,10 @@
-// Link - https://adventofcode.com/2022/day/XX
+// Link - https://adventofcode.com/2022/day/XY
 use crate::Solver;
 
-pub struct DayXX;
+pub struct DayXY;
 
 #[allow(unused_variables)]
-impl Solver for DayXX {
+impl Solver for DayXY {
     fn part_a(&self, input: &str) -> String {
         unimplemented!()
     }
@@ -22,12 +22,12 @@ mod tests {
     #[test]
     fn test_part_a() {
         let input = read_input(4);
-        assert_eq!("", DayXX.part_a(&input))
+        assert_eq!("", DayXY.part_a(&input))
     }
 
     #[test]
     fn test_part_b() {
         let input = read_input(4);
-        assert_eq!("", DayXX.part_b(&input))
+        assert_eq!("", DayXY.part_b(&input))
     }
 }

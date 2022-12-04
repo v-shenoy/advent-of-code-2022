@@ -23,6 +23,7 @@ fn main() {
 
     match cli.command {
         Command::All => {
+            let start = Instant::now();
             for (day, solver) in solvers::SOLVERS.iter().enumerate() {
                 let day = day as u8 + 1;
                 let input = read_input(day);
@@ -43,8 +44,10 @@ fn main() {
                     day, ans, elapsed
                 );
 
-                println!("\u{2570} {} \u{256F}", "-".repeat(75));
+                println!("╰ {} ╯", "-".repeat(75));
             }
+            let elapsed = format_time(start.elapsed().as_nanos());
+            println!("Overall time - {}", elapsed);
         }
         Command::Run { day, part } => {
             let solver = match solvers::SOLVERS.get((day - 1) as usize) {

@@ -11,8 +11,8 @@ I will also try to add basic comments explaining my approach, as well as benchma
 
 ## Solutions
 
-All common utility stuff is defined in the `src/lib.rs` file. Solutions for day `XX` are defined in the `src/solvers/day_XX.rs` file. Inputs
-for day `XX` are in the `inputs/XX.txt` and `inputs/XX_test.txt` (which is the sample input).
+All common utility stuff is defined in the `src/lib.rs` file. Solutions for day `XY` are defined in the `src/solvers/day_XY.rs` file. Inputs
+for day `XY` are in the `inputs/XY.txt` and `inputs/XY_test.txt` (which is the sample input).
 
 > Note:
 > - The solutions and tests been checked with Cargo & Rust v1.65.0.
@@ -24,7 +24,7 @@ for day `XX` are in the `inputs/XX.txt` and `inputs/XX_test.txt` (which is the s
 # Running all solutions
 $ cargo run --release -- all
 # Running a particular solution
-$ cargo run --release -- run <day> [part] # day = XX, part = a / b (optional, runs both parts by default)
+$ cargo run --release -- run <day> [part] # day = XY, part = a / b (optional, runs both parts by default)
 ```
 
 ### Test
@@ -35,7 +35,7 @@ Sample input for each day has been used to write unit tests.
 # Testing all sample inputs
 $ cargo test
 # Testing sample input for particular day
-$ cargo test XX
+$ cargo test XY
 ```
 
 ### Benchmarks
@@ -50,12 +50,12 @@ Once nightly rust has been installed
 # Running all benchmarks
 $ cargo +nightly bench
 # Running benchmarks for particular day
-$ cargo +nightly bench XX
+$ cargo +nightly bench XY
 ```
 
 ## Stars obtained
 
-### 06 / 50 :star:
+### 08 / 50 :star:
 
 ## Other Advent of Code solutions
 
