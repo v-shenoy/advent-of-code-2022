@@ -1,5 +1,5 @@
-use clap::{Parser, Subcommand};
-use std::time::Instant;
+use clap::{Parser, Subcommand, ValueEnum};
+use std::{fmt::Display, time::Instant};
 
 use aoc::{format_time, read_input, solvers};
 
@@ -13,9 +13,24 @@ struct Cli {
 #[derive(Subcommand)]
 enum Command {
     #[command(about = "Run the solution for particular part(s) for a particular day")]
-    Run { day: u8, part: Option<char> },
+    Run { day: u8, part: Option<Part> },
     #[command(about = "Run solutions for all days and all parts")]
     All,
+}
+
+#[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum)]
+enum Part {
+    A,
+    B,
+}
+
+impl Display for Part {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::A => write!(f, "A"),
+            Self::B => write!(f, "B"),
+        }
+    }
 }
 
 fn main() {
@@ -28,17 +43,17 @@ fn main() {
                 let day = day as u8 + 1;
                 let input = read_input(day);
 
-                let start = Instant::now();
-                let ans = solver.part_a(&input);
-                let elapsed = format_time(start.elapsed().as_nanos());
+                let mut start = Instant::now();
+                let mut ans = solver.part_a(&input);
+                let mut elapsed = format_time(start.elapsed().as_nanos());
                 println!(
                     "  Day - {:02}, Part A ans. - {}, Time - {}",
                     day, ans, elapsed
                 );
 
-                let start = Instant::now();
-                let ans = solver.part_b(&input);
-                let elapsed = format_time(start.elapsed().as_nanos());
+                start = Instant::now();
+                ans = solver.part_b(&input);
+                elapsed = format_time(start.elapsed().as_nanos());
                 println!(
                     "  Day - {:02}, Part B ans. - {}, Time - {}",
                     day, ans, elapsed
@@ -58,12 +73,10 @@ fn main() {
 
             match part {
                 Some(part) => {
-                    let part = part.to_uppercase().to_string();
                     let start = Instant::now();
-                    let ans = match part.as_str() {
-                        "A" => solver.part_a(&input),
-                        "B" => solver.part_b(&input),
-                        _ => panic!("No solution for Day - {:02}, Part {}", day, part),
+                    let ans = match part {
+                        Part::A => solver.part_a(&input),
+                        Part::B => solver.part_b(&input),
                     };
                     let elapsed = format_time(start.elapsed().as_nanos());
                     println!(
@@ -72,17 +85,17 @@ fn main() {
                     );
                 }
                 None => {
-                    let start = Instant::now();
-                    let ans = solver.part_a(&input);
-                    let elapsed = format_time(start.elapsed().as_nanos());
+                    let mut start = Instant::now();
+                    let mut ans = solver.part_a(&input);
+                    let mut elapsed = format_time(start.elapsed().as_nanos());
                     println!(
                         "Day - {:02}, Part A ans. - {}, Time - {}",
                         day, ans, elapsed
                     );
 
-                    let start = Instant::now();
-                    let ans = solver.part_b(&input);
-                    let elapsed = format_time(start.elapsed().as_nanos());
+                    start = Instant::now();
+                    ans = solver.part_b(&input);
+                    elapsed = format_time(start.elapsed().as_nanos());
                     println!(
                         "Day - {:02}, Part B ans. - {}, Time - {}",
                         day, ans, elapsed
