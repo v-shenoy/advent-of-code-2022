@@ -18,7 +18,7 @@ impl Solver for Day05 {
             stacks[to].append(&mut popped);
         });
 
-        stacks.iter().map(|s| s.last().unwrap()).collect()
+        stacks.iter().filter_map(|s| s.last()).collect()
     }
 
     fn part_b(&self, input: &str) -> String {
@@ -33,7 +33,7 @@ impl Solver for Day05 {
             stacks[to].append(&mut popped);
         });
 
-        stacks.iter().map(|s| s.last().unwrap()).collect()
+        stacks.iter().filter_map(|s| s.last()).collect()
     }
 }
 
