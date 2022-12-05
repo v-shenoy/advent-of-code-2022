@@ -1,4 +1,6 @@
 // Link - https://adventofcode.com/2022/day/5
+use std::convert::From;
+
 use crate::Solver;
 
 pub struct Day05;
@@ -7,9 +9,9 @@ impl Solver for Day05 {
     fn part_a(&self, input: &str) -> String {
         let (stack_str, procedure) = input.split_once("\n\n").unwrap();
         let mut stacks = parse_stacks(stack_str);
-        let procedure = procedure.lines().map(parse_step);
+        let procedure = procedure.lines().map(Step::from);
 
-        procedure.for_each(|(quantity, from, to)| {
+        procedure.for_each(|Step(quantity, from, to)| {
             let remaining = stacks[from].len() - quantity;
 
             let mut popped = stacks[from].split_off(remaining);
@@ -24,9 +26,9 @@ impl Solver for Day05 {
     fn part_b(&self, input: &str) -> String {
         let (stack_str, procedure) = input.split_once("\n\n").unwrap();
         let mut stacks = parse_stacks(stack_str);
-        let procedure = procedure.lines().map(parse_step);
+        let procedure = procedure.lines().map(Step::from);
 
-        procedure.for_each(|(quantity, from, to)| {
+        procedure.for_each(|Step(quantity, from, to)| {
             let remaining = stacks[from].len() - quantity;
             let mut popped = stacks[from].split_off(remaining);
 
@@ -57,13 +59,17 @@ fn parse_stacks(stack_str: &str) -> Vec<Vec<char>> {
     stacks
 }
 
-fn parse_step(step: &str) -> (usize, usize, usize) {
-    let mut step = step.split_ascii_whitespace().skip(1).step_by(2);
-    let quantity = step.next().unwrap().parse::<usize>().unwrap();
-    let from = step.next().unwrap().parse::<usize>().unwrap() - 1;
-    let to = step.next().unwrap().parse::<usize>().unwrap() - 1;
+struct Step(usize, usize, usize);
 
-    (quantity, from, to)
+impl From<&str> for Step {
+    fn from(s: &str) -> Self {
+        let mut s = s.split_ascii_whitespace().skip(1).step_by(2);
+        let quantity = s.next().unwrap().parse::<usize>().unwrap();
+        let from = s.next().unwrap().parse::<usize>().unwrap() - 1;
+        let to = s.next().unwrap().parse::<usize>().unwrap() - 1;
+
+        Step(quantity, from, to)
+    }
 }
 
 #[cfg(test)]
