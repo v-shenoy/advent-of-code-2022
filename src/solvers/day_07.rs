@@ -20,8 +20,9 @@ impl Solver for Day07 {
         let total = 70000000;
         let required = 30000000;
         let curr = total - root.size();
+        let to_free = required - curr;
 
-        root.free_up_space(curr, required).unwrap().to_string()
+        root.free_up_space(to_free).unwrap().to_string()
     }
 }
 
@@ -58,7 +59,7 @@ impl<'a> Node<'a> {
         ans
     }
 
-    fn free_up_space(&self, curr: u64, required: u64) -> Option<u64> {
+    fn free_up_space(&self, to_free: u64) -> Option<u64> {
         if self.is_file {
             return None;
         }
@@ -66,7 +67,7 @@ impl<'a> Node<'a> {
         let sub_dir_size = self
             .sub_dirs
             .values()
-            .filter_map(|n| n.borrow().free_up_space(curr, required))
+            .filter_map(|n| n.borrow().free_up_space(to_free))
             .min();
 
         if sub_dir_size.is_some() {
@@ -74,7 +75,7 @@ impl<'a> Node<'a> {
         }
 
         let size = self.size();
-        if curr + size >= required {
+        if size >= to_free {
             return Some(size);
         }
 
