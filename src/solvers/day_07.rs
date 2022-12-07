@@ -3,6 +3,7 @@ use std::collections::HashMap;
 use std::{cell::RefCell, rc::Rc};
 
 use crate::Solver;
+use Node::*;
 
 pub struct Day07;
 
@@ -27,70 +28,67 @@ impl Solver for Day07 {
 }
 
 #[derive(Debug, Clone)]
-struct Node<'a> {
-    size: Option<u64>,
-    is_file: bool,
-    parent: Option<Rc<RefCell<Node<'a>>>>,
-    sub_dirs: HashMap<&'a str, Rc<RefCell<Node<'a>>>>,
+enum Node<'a> {
+    File(u64),
+    Dir {
+        parent: Option<Rc<RefCell<Node<'a>>>>,
+        sub_dirs: HashMap<&'a str, Rc<RefCell<Node<'a>>>>,
+    },
 }
 
 impl<'a> Node<'a> {
     fn size(&self) -> u64 {
-        if self.is_file {
-            return self.size.unwrap();
+        match self {
+            File(size) => *size,
+            Dir { sub_dirs, .. } => sub_dirs.values().map(|n| n.borrow().size()).sum(),
         }
-
-        self.sub_dirs.values().map(|n| n.borrow().size()).sum()
     }
 
     fn size_at_most(&self, limit: u64) -> u64 {
-        if self.is_file {
-            return 0;
+        match self {
+            File(_) => 0,
+            Dir { sub_dirs, .. } => {
+                let size = self.size();
+                let ans = if size <= limit { size } else { 0 }
+                    + sub_dirs
+                        .values()
+                        .map(|n| n.borrow().size_at_most(limit))
+                        .sum::<u64>();
+
+                ans
+            }
         }
-
-        let size = self.size();
-        let ans = if size <= limit { size } else { 0 }
-            + self
-                .sub_dirs
-                .values()
-                .map(|n| n.borrow().size_at_most(limit))
-                .sum::<u64>();
-
-        ans
     }
 
     fn free_up_space(&self, to_free: u64) -> Option<u64> {
-        if self.is_file {
-            return None;
+        match self {
+            File(_) => None,
+            Dir { sub_dirs, .. } => {
+                let sub_dir_size = sub_dirs
+                    .values()
+                    .filter_map(|n| n.borrow().free_up_space(to_free))
+                    .min();
+
+                if sub_dir_size.is_some() {
+                    return sub_dir_size;
+                }
+
+                let size = self.size();
+                if size >= to_free {
+                    return Some(size);
+                }
+
+                None
+            }
         }
-
-        let sub_dir_size = self
-            .sub_dirs
-            .values()
-            .filter_map(|n| n.borrow().free_up_space(to_free))
-            .min();
-
-        if sub_dir_size.is_some() {
-            return sub_dir_size;
-        }
-
-        let size = self.size();
-        if size >= to_free {
-            return Some(size);
-        }
-
-        None
     }
 }
 
 fn parse_file_system(input: &str) -> Node {
-    let root = Node {
-        size: None,
-        is_file: false,
+    let root = Rc::new(RefCell::new(Dir {
         parent: None,
         sub_dirs: Default::default(),
-    };
-    let root = Rc::new(RefCell::new(root));
+    }));
 
     let mut curr = Rc::clone(&root);
     for line in input.trim().lines() {
@@ -101,41 +99,29 @@ fn parse_file_system(input: &str) -> Node {
             ["$", "cd", dest] => match *dest {
                 "/" => curr = Rc::clone(&root),
                 ".." => {
-                    let parent = Rc::clone(curr.borrow().parent.as_ref().unwrap());
-                    curr = parent;
+                    let Dir {ref parent, .. } = curr.borrow().clone() else { panic!() };
+                    curr = Rc::clone(parent.as_ref().unwrap());
                 }
-
                 dest => {
-                    let sub_dir = Rc::clone(curr.borrow().sub_dirs.get(dest).unwrap());
-                    curr = sub_dir;
+                    let Dir {ref sub_dirs, .. } = curr.borrow().clone() else { panic!() };
+                    curr = Rc::clone(sub_dirs.get(dest).unwrap());
                 }
             },
             ["$", "ls"] => (),
             ["dir", sub_dir] => {
-                let node = Node {
-                    size: None,
-                    is_file: false,
+                let node = Dir {
                     parent: Some(Rc::clone(&curr)),
                     sub_dirs: Default::default(),
                 };
 
-                curr.borrow_mut()
-                    .sub_dirs
-                    .insert(sub_dir, Rc::new(RefCell::new(node)));
+                let Dir {ref mut sub_dirs, .. } = *curr.borrow_mut() else { panic!() };
+                sub_dirs.insert(sub_dir, Rc::new(RefCell::new(node)));
             }
             [size, file] => {
-                let size: u64 = size.parse().unwrap();
+                let node = File(size.parse().unwrap());
 
-                let node = Node {
-                    size: Some(size),
-                    is_file: true,
-                    parent: Some(Rc::clone(&curr)),
-                    sub_dirs: Default::default(),
-                };
-
-                curr.borrow_mut()
-                    .sub_dirs
-                    .insert(file, Rc::new(RefCell::new(node)));
+                let Dir {ref mut sub_dirs, .. } = *curr.borrow_mut() else { panic!() };
+                sub_dirs.insert(file, Rc::new(RefCell::new(node)));
             }
             _ => unreachable!(),
         }
