@@ -55,7 +55,7 @@ $ cargo +nightly bench XY
 
 ## Stars obtained
 
-### 12 / 50 :star:
+### 14 / 50 :star:
 
 ## Other Advent of Code solutions
 
