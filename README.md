@@ -9,8 +9,8 @@ I will be restricting myself to the standard library and try to get familiar wit
 
 I will also try to add basic comments explaining my approach, as well as benchmark the code.
 
-> Note - This is my first time writing Rust programs. Due to my lack of knowledge, some of solutions maybe not be the best Rust code, either in terms of
-> efficiency or being idiomatic.
+> Note - This is my first time writing Rust programs. For many of my solutions there might be a better way,
+> in terms of efficiency or writing Rust-y code.
 
 ## Solutions
 

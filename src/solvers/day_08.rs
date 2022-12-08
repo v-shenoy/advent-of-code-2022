@@ -127,54 +127,6 @@ fn col_visibility(trees: &[Vec<i8>], visible: &mut [Vec<bool>], col: usize, is_t
     }
 }
 
-// fn row_viewing_distance(trees: &[Vec<i8>], is_ltr: bool) -> Vec<Vec<usize>> {
-//     let mut vd = vec![vec![1; trees[0].len()]; trees.len()];
-
-//     if is_ltr {
-//         for row in 0..trees.len() {
-//             for col in (0..trees[0].len() - 1).rev() {
-//                 if trees[row][col] > trees[row][col + 1] {
-//                     vd[row][col] += vd[row][col + 1]
-//                 }
-//             }
-//         }
-//     } else {
-//         for row in 0..trees.len() {
-//             for col in 1..trees[0].len() - 1 {
-//                 if trees[row][col] > trees[row][col - 1] {
-//                     vd[row][col] += vd[row][col - 1]
-//                 }
-//             }
-//         }
-//     }
-
-//     vd
-// }
-
-// fn col_viewing_distance(trees: &[Vec<i8>], is_ttb: bool) -> Vec<Vec<usize>> {
-//     let mut vd = vec![vec![1; trees[0].len()]; trees.len()];
-
-//     if is_ttb {
-//         for row in (0..trees.len() - 1).rev() {
-//             for col in 0..trees[0].len() {
-//                 if trees[row][col] > trees[row + 1][col] {
-//                     vd[row][col] += vd[row + 1][col]
-//                 }
-//             }
-//         }
-//     } else {
-//         for row in 1..trees.len() - 1 {
-//             for col in 0..trees[0].len() {
-//                 if trees[row][col] > trees[row - 1][col] {
-//                     vd[row][col] += vd[row - 1][col]
-//                 }
-//             }
-//         }
-//     }
-
-//     vd
-// }
-
 #[cfg(test)]
 mod tests {
     use super::*;

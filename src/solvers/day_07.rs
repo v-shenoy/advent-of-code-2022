@@ -27,6 +27,9 @@ impl Solver for Day07 {
     }
 }
 
+// This leaks memory due to incorrect use of reference counting with cyclic referefences. The correct way to do this might be
+// to use Weak, or change our approach and use a flat data structure instead of a tree. I might come back to this after reading more
+// about Rust's ownership and borrowing concepts, and see if I can fix it.
 #[derive(Debug, Clone)]
 enum Node<'a> {
     File(u64),
