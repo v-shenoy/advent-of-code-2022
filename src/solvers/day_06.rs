@@ -1,4 +1,7 @@
 // Link - https://adventofcode.com/2022/day/6
+#![allow(unused)]
+use std::collections::HashSet;
+
 use crate::Solver;
 
 pub struct Day06;
@@ -10,9 +13,9 @@ impl Solver for Day06 {
         let ans = input
             .as_bytes()
             .windows(NUM_UNIQUE_CHARS)
-            // Used a HashSet initially as follows. It gives the right answer but is not as efficient.
+            // Initial approach. Inefficient due to use of HashSet.
             // .position(|chars| chars.iter().collect::<HashSet<_>>().len() == NUM_UNIQUE_CHARS)
-            // Then I found this - https://stackoverflow.com/a/46766782/653173, thanks to u/asaaki on reddit.
+            // Found this - https://stackoverflow.com/a/46766782/653173 on Reddit, thanks to u/asaaki.
             .position(|chars| (1..chars.len()).all(|i| !chars[0..i].contains(&chars[i])))
             .unwrap()
             + NUM_UNIQUE_CHARS;

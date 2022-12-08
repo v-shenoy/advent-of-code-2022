@@ -10,7 +10,7 @@ impl Solver for Day08 {
             .map(|l| l.chars().map(|c| c.to_digit(10).unwrap() as i8).collect())
             .collect();
 
-        // Slower, Less space: O(n*m*(n + m)) solution
+        // Slower,  but less space: O(n*m*(n + m)) solution
         // let rows = trees.len();
         // let cols = trees[0].len();
 
@@ -28,7 +28,7 @@ impl Solver for Day08 {
         //     }
         // }
 
-        // Faster, More space: O(n*m) solution
+        // Faster, but more space: O(n*m) solution
         let mut visible = vec![vec![false; trees[0].len()]; trees.len()];
 
         for i in 0..trees.len() {
