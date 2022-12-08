@@ -4,9 +4,9 @@ pub mod solvers;
 
 pub fn read_input(day: u8) -> String {
     let path = format!(
-        "inputs/{:02}{}.txt",
+        "inputs/{}{:02}.txt",
+        if cfg!(test) { "tests/" } else { "" },
         day,
-        if cfg!(test) { "_test" } else { "" }
     );
     match fs::read_to_string(&path) {
         Ok(input) => input,

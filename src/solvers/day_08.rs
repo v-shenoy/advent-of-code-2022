@@ -10,7 +10,7 @@ impl Solver for Day08 {
             .map(|l| l.chars().map(|c| c.to_digit(10).unwrap() as i8).collect())
             .collect();
 
-        // Slower,  but less space: O(n*m*(n + m)) solution
+        // Slower,  but less space: O(n*m*(n+m)) solution.
         // let rows = trees.len();
         // let cols = trees[0].len();
 
@@ -28,17 +28,18 @@ impl Solver for Day08 {
         //     }
         // }
 
-        // Faster, but more space: O(n*m) solution
+        // Faster, but uses more space: O(n*m) solution. O(n*m) more space
+        // required for the 2-d visibility vector.
         let mut visible = vec![vec![false; trees[0].len()]; trees.len()];
 
-        for i in 0..trees.len() {
-            row_visibility(trees.as_slice(), visible.as_mut_slice(), i, true);
-            row_visibility(trees.as_slice(), visible.as_mut_slice(), i, false);
+        for row in 0..trees.len() {
+            row_visibility(trees.as_slice(), visible.as_mut_slice(), row, true);
+            row_visibility(trees.as_slice(), visible.as_mut_slice(), row, false);
         }
 
-        for i in 0..trees[0].len() {
-            col_visibility(trees.as_slice(), visible.as_mut_slice(), i, true);
-            col_visibility(trees.as_slice(), visible.as_mut_slice(), i, false);
+        for col in 0..trees[0].len() {
+            col_visibility(trees.as_slice(), visible.as_mut_slice(), col, true);
+            col_visibility(trees.as_slice(), visible.as_mut_slice(), col, false);
         }
 
         let ans: usize = visible
@@ -61,17 +62,12 @@ impl Solver for Day08 {
         for row in 0..rows {
             for col in 0..cols {
                 let height = trees[row][col];
-                let top = (0..row)
-                    .rev()
-                    .find(|&i| trees[i][col] >= height)
-                    .unwrap_or(0);
+
+                let top = (0..row).rfind(|&i| trees[i][col] >= height).unwrap_or(0);
                 let bottom = (row + 1..rows)
                     .find(|&i| trees[i][col] >= height)
                     .unwrap_or(rows - 1);
-                let left = (0..col)
-                    .rev()
-                    .find(|&i| trees[row][i] >= height)
-                    .unwrap_or(0);
+                let left = (0..col).rfind(|&i| trees[row][i] >= height).unwrap_or(0);
                 let right = (col + 1..cols)
                     .find(|&i| trees[row][i] >= height)
                     .unwrap_or(cols - 1);

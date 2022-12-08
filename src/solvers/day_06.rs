@@ -15,7 +15,7 @@ impl Solver for Day06 {
             .windows(NUM_UNIQUE_CHARS)
             // Initial approach. Inefficient due to use of HashSet.
             // .position(|chars| chars.iter().collect::<HashSet<_>>().len() == NUM_UNIQUE_CHARS)
-            // Found this - https://stackoverflow.com/a/46766782/653173 on Reddit, thanks to u/asaaki.
+            // Found https://stackoverflow.com/a/46766782/653173 on Reddit, thanks to u/asaaki.
             .position(|chars| (1..chars.len()).all(|i| !chars[0..i].contains(&chars[i])))
             .unwrap()
             + NUM_UNIQUE_CHARS;
