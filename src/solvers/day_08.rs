@@ -55,30 +55,43 @@ impl Solver for Day08 {
             .map(|l| l.chars().map(|c| c.to_digit(10).unwrap() as i8).collect())
             .collect();
 
-        let rows = trees.len();
-        let cols = trees[0].len();
+        // let rows = trees.len();
+        // let cols = trees[0].len();
 
-        let mut ans: usize = 0;
-        for row in 0..rows {
-            for col in 0..cols {
-                let height = trees[row][col];
+        // let mut ans: usize = 0;
+        // for row in 0..rows {
+        //     for col in 0..cols {
+        //         let height = trees[row][col];
 
-                let top = (0..row).rfind(|&i| trees[i][col] >= height).unwrap_or(0);
-                let bottom = (row + 1..rows)
-                    .find(|&i| trees[i][col] >= height)
-                    .unwrap_or(rows - 1);
-                let left = (0..col).rfind(|&i| trees[row][i] >= height).unwrap_or(0);
-                let right = (col + 1..cols)
-                    .find(|&i| trees[row][i] >= height)
-                    .unwrap_or(cols - 1);
+        //         let top = (0..row).rfind(|&i| trees[i][col] >= height).unwrap_or(0);
+        //         let bottom = (row + 1..rows)
+        //             .find(|&i| trees[i][col] >= height)
+        //             .unwrap_or(rows - 1);
+        //         let left = (0..col).rfind(|&i| trees[row][i] >= height).unwrap_or(0);
+        //         let right = (col + 1..cols)
+        //             .find(|&i| trees[row][i] >= height)
+        //             .unwrap_or(cols - 1);
 
-                let vd = (row - top) * (bottom - row) * (col - left) * (right - col);
-                if vd > ans {
-                    ans = vd;
-                }
-            }
+        //         let vd = (row - top) * (bottom - row) * (col - left) * (right - col);
+        //         if vd > ans {
+        //             ans = vd;
+        //         }
+        //     }
+        // }
+
+        let mut viewing_dist = vec![vec![1; trees[0].len()]; trees.len()];
+
+        for row in 0..trees.len() {
+            row_viewing_dist(trees.as_slice(), viewing_dist.as_mut_slice(), row, true);
+            row_viewing_dist(trees.as_slice(), viewing_dist.as_mut_slice(), row, false);
         }
 
+        for col in 0..trees[0].len() {
+            col_viewing_dist(trees.as_slice(), viewing_dist.as_mut_slice(), col, true);
+            col_viewing_dist(trees.as_slice(), viewing_dist.as_mut_slice(), col, false);
+        }
+
+        let ans: usize = *viewing_dist.iter().flatten().max().unwrap();
         ans.to_string()
     }
 }
@@ -119,6 +132,103 @@ fn col_visibility(trees: &[Vec<i8>], visible: &mut [Vec<bool>], col: usize, is_t
                 visible[row][col] = true;
                 max = trees[row][col]
             }
+        }
+    }
+}
+
+struct Tree {
+    height: i8,
+    idx: usize,
+}
+
+fn row_viewing_dist(trees: &[Vec<i8>], viewing_dist: &mut [Vec<usize>], row: usize, is_ltr: bool) {
+    let mut stack: Vec<Tree> = Vec::new();
+
+    if is_ltr {
+        for col in (0..trees[0].len()).rev() {
+            while let Some(tree) = stack.last() {
+                if tree.height >= trees[row][col] {
+                    break;
+                }
+
+                stack.pop();
+            }
+
+            match stack.last() {
+                Some(tree) => viewing_dist[row][col] *= tree.idx.saturating_sub(col),
+                None => viewing_dist[row][col] *= (trees[0].len() - 1).saturating_sub(col),
+            }
+
+            stack.push(Tree {
+                height: trees[row][col],
+                idx: col,
+            });
+        }
+    } else {
+        for col in 0..trees[0].len() {
+            while let Some(tree) = stack.last() {
+                if tree.height >= trees[row][col] {
+                    break;
+                }
+
+                stack.pop();
+            }
+
+            match stack.last() {
+                Some(tree) => viewing_dist[row][col] *= col.saturating_sub(tree.idx),
+                None => viewing_dist[row][col] *= (col).saturating_sub(0),
+            }
+
+            stack.push(Tree {
+                height: trees[row][col],
+                idx: col,
+            });
+        }
+    }
+}
+
+fn col_viewing_dist(trees: &[Vec<i8>], viewing_dist: &mut [Vec<usize>], col: usize, is_ttb: bool) {
+    let mut stack: Vec<Tree> = Vec::new();
+
+    if is_ttb {
+        for row in (0..trees.len()).rev() {
+            while let Some(tree) = stack.last() {
+                if tree.height >= trees[row][col] {
+                    break;
+                }
+
+                stack.pop();
+            }
+
+            match stack.last() {
+                Some(tree) => viewing_dist[row][col] *= tree.idx.saturating_sub(row),
+                None => viewing_dist[row][col] *= (trees.len() - 1).saturating_sub(row),
+            }
+
+            stack.push(Tree {
+                height: trees[row][col],
+                idx: row,
+            });
+        }
+    } else {
+        for row in 0..trees.len() {
+            while let Some(tree) = stack.last() {
+                if tree.height >= trees[row][col] {
+                    break;
+                }
+
+                stack.pop();
+            }
+
+            match stack.last() {
+                Some(tree) => viewing_dist[row][col] *= row.saturating_sub(tree.idx),
+                None => viewing_dist[row][col] *= (row).saturating_sub(0),
+            }
+
+            stack.push(Tree {
+                height: trees[row][col],
+                idx: row,
+            });
         }
     }
 }
