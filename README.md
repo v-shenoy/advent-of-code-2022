@@ -9,6 +9,9 @@ I will be restricting myself to the standard library and try to get familiar wit
 
 I will also try to add basic comments explaining my approach, as well as benchmark the code.
 
+> Note - This is my first time writing Rust programs. Due to my lack of knowledge, some of solutions maybe not be the best Rust code, either in terms of
+> efficiency or being idiomatic.
+
 ## Solutions
 
 All common utility stuff is defined in the `src/lib.rs` file. Solutions for day `XY` are defined in the `src/solvers/day_XY.rs` file. Inputs
@@ -55,7 +58,7 @@ $ cargo +nightly bench XY
 
 ## Stars obtained
 
-### 14 / 50 :star:
+### 16 / 50 :star:
 
 ## Other Advent of Code solutions
 

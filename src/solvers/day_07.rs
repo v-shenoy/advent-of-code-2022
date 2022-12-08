@@ -36,7 +36,7 @@ enum Node<'a> {
     },
 }
 
-impl<'a> Node<'a> {
+impl Node<'_> {
     fn size(&self) -> u64 {
         match self {
             File(size) => *size,
