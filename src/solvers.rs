@@ -8,9 +8,10 @@ pub mod day_05;
 pub mod day_06;
 pub mod day_07;
 pub mod day_08;
+pub mod day_09;
 pub mod day_xy;
 
-pub const SOLVERS: [&dyn Solver; 8] = [
+pub const SOLVERS: [&dyn Solver; 9] = [
     &day_01::Day01,
     &day_02::Day02,
     &day_03::Day03,
@@ -19,4 +20,5 @@ pub const SOLVERS: [&dyn Solver; 8] = [
     &day_06::Day06,
     &day_07::Day07,
     &day_08::Day08,
+    &day_09::Day09,
 ];

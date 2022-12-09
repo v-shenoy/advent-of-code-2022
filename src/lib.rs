@@ -4,13 +4,12 @@ pub mod solvers;
 
 pub fn read_input(day: u8) -> String {
     let path = format!(
-        "inputs/{}{:02}.txt",
+        "inputs/{}{day:02}.txt",
         if cfg!(test) { "tests/" } else { "" },
-        day,
     );
     match fs::read_to_string(&path) {
         Ok(input) => input,
-        Err(err) => panic!("Error reading input file {} - {}", path, err),
+        Err(err) => panic!("Error reading input file {path} - {err}"),
     }
 }
 
@@ -19,12 +18,12 @@ pub fn format_time(time: u128) -> String {
     let mut time = time as f64;
     for unit in TIME_UNITS {
         if time < 1000_f64 {
-            return format!("{}{}", time, unit);
+            return format!("{time}{unit}");
         }
         time /= 1000_f64;
     }
 
-    format!("{}{}", time, TIME_UNITS.last().unwrap())
+    format!("{time}{}", TIME_UNITS.last().unwrap())
 }
 
 pub trait Solver {

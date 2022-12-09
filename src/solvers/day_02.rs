@@ -64,7 +64,7 @@ impl From<&str> for Choice {
             "A" | "X" => Rock,
             "B" | "Y" => Paper,
             "C" | "Z" => Scissors,
-            _ => unreachable!("Invalid choice - {}", choice),
+            _ => unreachable!("Invalid choice - {choice}"),
         }
     }
 }
@@ -102,7 +102,7 @@ impl From<&str> for Outcome {
             "X" => Loss,
             "Y" => Draw,
             "Z" => Win,
-            _ => unreachable!("Invalid Outcome - {}", res),
+            _ => unreachable!("Invalid Outcome - {res}"),
         }
     }
 }
