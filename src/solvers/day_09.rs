@@ -12,13 +12,13 @@ impl Solver for Day09 {
         let mut rope = Rope::new(ROPE_LEN);
         let mut visited = HashSet::new();
 
-        visited.insert(*rope.knots.last().unwrap());
+        visited.insert(rope.end());
         input.lines().for_each(|l| {
             let (dir, step) = l.split_once(' ').unwrap();
             let dir = Direction::from(dir);
             let step: i64 = step.parse().unwrap();
 
-            rope.pull(&dir, step, &mut visited);
+            rope.pull(dir, step, &mut visited);
         });
 
         visited.len().to_string()
@@ -29,13 +29,13 @@ impl Solver for Day09 {
         let mut rope = Rope::new(ROPE_LEN);
         let mut visited = HashSet::new();
 
-        visited.insert(*rope.knots.last().unwrap());
+        visited.insert(rope.end());
         input.lines().for_each(|l| {
             let (dir, step) = l.split_once(' ').unwrap();
             let dir = Direction::from(dir);
             let step: i64 = step.parse().unwrap();
 
-            rope.pull(&dir, step, &mut visited);
+            rope.pull(dir, step, &mut visited);
         });
 
         visited.len().to_string()
@@ -88,7 +88,7 @@ impl Rope {
         }
     }
 
-    fn pull(&mut self, dir: &Direction, step: i64, visited: &mut HashSet<Knot>) {
+    fn pull(&mut self, dir: Direction, step: i64, visited: &mut HashSet<Knot>) {
         for _ in 0..step {
             match dir {
                 Left => self.knots[0].x -= 1,
@@ -102,18 +102,21 @@ impl Rope {
 
     fn update_knots(&mut self, visited: &mut HashSet<Knot>) {
         for i in 1..self.len {
-            let first = self.knots[i - 1];
-            let second = self.knots[i];
+            let prev = self.knots[i - 1];
+            let next = self.knots[i];
 
-            let dx = first.x - second.x;
-            let dy = first.y - second.y;
+            let (dx, dy) = (prev.x - next.x, prev.y - next.y);
             if dx.abs() > 1 || dy.abs() > 1 {
                 self.knots[i].x += dx.signum();
                 self.knots[i].y += dy.signum();
             }
         }
 
-        visited.insert(*self.knots.last().unwrap());
+        visited.insert(self.end());
+    }
+
+    fn end(&self) -> Knot {
+        *self.knots.last().unwrap()
     }
 }
 

@@ -46,12 +46,12 @@ fn main() {
                 let mut start = Instant::now();
                 let mut ans = solver.part_a(&input);
                 let mut elapsed = format_time(start.elapsed().as_nanos());
-                println!("  Day - {day:02}, Part A ans. - {ans}, Time - {elapsed}",);
+                println!("  Day - {day:02}, Part A ans. - {ans}, Time - {elapsed}");
 
                 start = Instant::now();
                 ans = solver.part_b(&input);
                 elapsed = format_time(start.elapsed().as_nanos());
-                println!("  Day - {day:02}, Part B ans. - {ans}, Time - {elapsed}",);
+                println!("  Day - {day:02}, Part B ans. - {ans}, Time - {elapsed}");
 
                 println!("╰ {} ╯", "-".repeat(75));
             }
@@ -73,18 +73,23 @@ fn main() {
                         Part::B => solver.part_b(&input),
                     };
                     let elapsed = format_time(start.elapsed().as_nanos());
-                    println!("Day - {day:02}, Part {part} ans. - {ans}, Time - {elapsed}",);
+                    println!("Day - {day:02}, Part {part} ans. - {ans}, Time - {elapsed}");
                 }
                 None => {
-                    let mut start = Instant::now();
-                    let mut ans = solver.part_a(&input);
-                    let mut elapsed = format_time(start.elapsed().as_nanos());
-                    println!("Day - {day:02}, Part A ans. - {ans}, Time - {elapsed}",);
+                    let start = Instant::now();
+                    {
+                        let mut start = Instant::now();
+                        let mut ans = solver.part_a(&input);
+                        let mut elapsed = format_time(start.elapsed().as_nanos());
+                        println!("Day - {day:02}, Part A ans. - {ans}, Time - {elapsed}");
 
-                    start = Instant::now();
-                    ans = solver.part_b(&input);
-                    elapsed = format_time(start.elapsed().as_nanos());
-                    println!("Day - {day:02}, Part B ans. - {ans}, Time - {elapsed}",);
+                        start = Instant::now();
+                        ans = solver.part_b(&input);
+                        elapsed = format_time(start.elapsed().as_nanos());
+                        println!("Day - {day:02}, Part B ans. - {ans}, Time - {elapsed}");
+                    }
+                    let elapsed = format_time(start.elapsed().as_nanos());
+                    println!("Overall time - {elapsed}");
                 }
             }
         }
