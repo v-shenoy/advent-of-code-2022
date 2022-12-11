@@ -80,12 +80,12 @@ mod tests {
     #[test]
     fn test_part_a() {
         let input = read_input(5);
-        assert_eq!("CMZ", Day05.part_a(&input))
+        assert_eq!("CMZ", Day05.part_a(&input));
     }
 
     #[test]
     fn test_part_b() {
         let input = read_input(5);
-        assert_eq!("MCD", Day05.part_b(&input))
+        assert_eq!("MCD", Day05.part_b(&input));
     }
 }

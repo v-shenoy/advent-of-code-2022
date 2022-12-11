@@ -45,12 +45,12 @@ mod tests {
     #[test]
     fn test_part_a() {
         let input = read_input(6);
-        assert_eq!("7", Day06.part_a(&input))
+        assert_eq!("7", Day06.part_a(&input));
     }
 
     #[test]
     fn test_part_b() {
         let input = read_input(6);
-        assert_eq!("19", Day06.part_b(&input))
+        assert_eq!("19", Day06.part_b(&input));
     }
 }

@@ -12,7 +12,7 @@ impl Solver for Day09 {
         let mut rope = Rope::new(ROPE_LEN);
         let mut visited = HashSet::new();
 
-        visited.insert(rope.end());
+        visited.insert(rope.tail());
         input.lines().for_each(|l| {
             let (dir, step) = l.split_once(' ').unwrap();
             let dir = Direction::from(dir);
@@ -29,7 +29,7 @@ impl Solver for Day09 {
         let mut rope = Rope::new(ROPE_LEN);
         let mut visited = HashSet::new();
 
-        visited.insert(rope.end());
+        visited.insert(rope.tail());
         input.lines().for_each(|l| {
             let (dir, step) = l.split_once(' ').unwrap();
             let dir = Direction::from(dir);
@@ -112,10 +112,10 @@ impl Rope {
             }
         }
 
-        visited.insert(self.end());
+        visited.insert(self.tail());
     }
 
-    fn end(&self) -> Knot {
+    fn tail(&self) -> Knot {
         *self.knots.last().unwrap()
     }
 }

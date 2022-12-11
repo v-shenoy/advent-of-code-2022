@@ -106,12 +106,12 @@ mod tests {
     #[test]
     fn test_part_a() {
         let input = read_input(3);
-        assert_eq!("157", Day03.part_a(&input))
+        assert_eq!("157", Day03.part_a(&input));
     }
 
     #[test]
     fn test_part_b() {
         let input = read_input(3);
-        assert_eq!("70", Day03.part_b(&input))
+        assert_eq!("70", Day03.part_b(&input));
     }
 }

@@ -241,12 +241,12 @@ mod tests {
     #[test]
     fn test_part_a() {
         let input = read_input(8);
-        assert_eq!("21", Day08.part_a(&input))
+        assert_eq!("21", Day08.part_a(&input));
     }
 
     #[test]
     fn test_part_b() {
         let input = read_input(8);
-        assert_eq!("8", Day08.part_b(&input))
+        assert_eq!("8", Day08.part_b(&input));
     }
 }
