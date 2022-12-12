@@ -11,9 +11,9 @@ impl Solver for Day12 {
         let (rows, cols) = (grid.len(), grid[0].len());
         let heightmap = HeightMap { grid, rows, cols };
 
-        let dist = heightmap.bfs();
+        let dist = heightmap.calculate_distances();
 
-        let (x, y) = heightmap.find_start();
+        let (x, y) = heightmap.find_end('S');
         dist[x][y].to_string()
     }
 
@@ -22,7 +22,7 @@ impl Solver for Day12 {
         let (rows, cols) = (grid.len(), grid[0].len());
         let heightmap = HeightMap { grid, rows, cols };
 
-        let (dist, mut min_dist) = (heightmap.bfs(), isize::MAX);
+        let (dist, mut min_dist) = (heightmap.calculate_distances(), isize::MAX);
         for (x, row) in dist.iter().enumerate() {
             for (y, &d) in row.iter().enumerate() {
                 if heightmap.is_lowest(x, y) && d != -1 {
@@ -44,22 +44,10 @@ struct HeightMap {
 type Index = (usize, usize);
 
 impl HeightMap {
-    fn find_start(&self) -> Index {
+    fn find_end(&self, c: char) -> Index {
         for x in 0..self.rows {
             for y in 0..self.cols {
-                if self.grid[x][y] == 'S' {
-                    return (x, y);
-                }
-            }
-        }
-
-        unreachable!();
-    }
-
-    fn find_end(&self) -> Index {
-        for x in 0..self.rows {
-            for y in 0..self.cols {
-                if self.grid[x][y] == 'E' {
+                if self.grid[x][y] == c {
                     return (x, y);
                 }
             }
@@ -92,11 +80,11 @@ impl HeightMap {
         (x >= 0 && x < self.rows as isize) && (y >= 0 && y < self.cols as isize)
     }
 
-    fn bfs(&self) -> Vec<Vec<isize>> {
+    fn calculate_distances(&self) -> Vec<Vec<isize>> {
         const DELTAS: [(isize, isize); 4] = [(-1, 0), (1, 0), (0, -1), (0, 1)];
 
         let (mut queue, mut dist) = (VecDeque::new(), vec![vec![-1; self.cols]; self.rows]);
-        let (x, y) = self.find_end();
+        let (x, y) = self.find_end('E');
 
         dist[x][y] = 0;
         queue.push_back((x, y));
