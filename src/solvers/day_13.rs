@@ -1,5 +1,5 @@
 // Link - https://adventofcode.com/2022/day/13
-use std::cmp::{Ordering, PartialEq, PartialOrd};
+use std::cmp::{Ord, Ordering, PartialEq, PartialOrd};
 use std::str::from_utf8;
 
 use crate::Solver;
@@ -12,10 +12,10 @@ impl Solver for Day13 {
         let mut ans = 0;
 
         input.split("\n\n").enumerate().for_each(|(i, l)| {
-            let mut l = l.lines();
+            let (left, right) = l.split_once('\n').unwrap();
             let (left, right) = (
-                parse_packet(l.next().unwrap().as_bytes(), &mut 0),
-                parse_packet(l.next().unwrap().as_bytes(), &mut 0),
+                parse_packet(left.as_bytes(), &mut 0),
+                parse_packet(right.as_bytes(), &mut 0),
             );
 
             if left <= right {
@@ -27,36 +27,26 @@ impl Solver for Day13 {
     }
 
     fn part_b(&self, input: &str) -> String {
-        let (divider_start, divider_end) = (
-            List(vec![List(vec![Int(2)])]),
-            List(vec![List(vec![Int(6)])]),
-        );
+        let mut packets: Vec<_> = input
+            .lines()
+            .filter_map(|l| {
+                if !l.is_empty() {
+                    Some(parse_packet(l.as_bytes(), &mut 0))
+                } else {
+                    None
+                }
+            })
+            .collect();
+        packets.sort();
 
-        let mut packets = vec![divider_start.clone(), divider_end.clone()];
-
-        input.split("\n\n").for_each(|l| {
-            let mut l = l.lines();
-            let (left, right) = (
-                parse_packet(l.next().unwrap().as_bytes(), &mut 0),
-                parse_packet(l.next().unwrap().as_bytes(), &mut 0),
-            );
-
-            packets.push(left);
-            packets.push(right);
-        });
-
-        packets.sort_by(|p1, p2| p1.partial_cmp(p2).unwrap());
-
-        let (mut idx_start, mut idx_end) = (0, 0);
-        for (i, p) in packets.iter().enumerate() {
-            if *p == divider_start {
-                idx_start = i + 1;
-            }
-
-            if *p == divider_end {
-                idx_end = i + 1;
-            }
-        }
+        let idx_start = match packets.binary_search(&parse_packet("[[2]]".as_bytes(), &mut 0)) {
+            Ok(i) => i,
+            Err(i) => i,
+        } + 1;
+        let idx_end = match packets.binary_search(&parse_packet("[[6]]".as_bytes(), &mut 0)) {
+            Ok(i) => i,
+            Err(i) => i,
+        } + 2;
 
         (idx_start * idx_end).to_string()
     }
@@ -65,7 +55,7 @@ impl Solver for Day13 {
 #[derive(Clone, Debug, PartialEq, Eq)]
 enum Packet {
     Int(usize),
-    List(Vec<Packet>),
+    List(Vec<Self>),
 }
 
 fn parse_packet(s: &[u8], idx: &mut usize) -> Packet {
@@ -92,25 +82,20 @@ fn parse_packet(s: &[u8], idx: &mut usize) -> Packet {
     List(packets)
 }
 
+impl Ord for Packet {
+    fn cmp(&self, other: &Self) -> Ordering {
+        match (self, other) {
+            (Int(v1), Int(v2)) => v1.cmp(v2),
+            (Int(v), List(_)) => List(vec![Int(*v)]).cmp(other),
+            (List(_), Int(v)) => self.cmp(&List(vec![Int(*v)])),
+            (List(packets1), List(packets2)) => packets1.cmp(packets2),
+        }
+    }
+}
+
 impl PartialOrd for Packet {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        match (self, other) {
-            (Int(v1), Int(v2)) => Some(v1.cmp(v2)),
-            (Int(v), List(_)) => List(vec![Int(*v)]).partial_cmp(other),
-            (List(_), Int(v)) => self.partial_cmp(&List(vec![Int(*v)])),
-            (List(packets1), List(packets2)) => {
-                for (p1, p2) in packets1.iter().zip(packets2.iter()) {
-                    let cmp = p1.partial_cmp(p2);
-                    if let Some(Ordering::Equal) = cmp {
-                        continue;
-                    }
-
-                    return cmp;
-                }
-
-                Some(packets1.len().cmp(&packets2.len()))
-            }
-        }
+        Some(self.cmp(other))
     }
 }
 
